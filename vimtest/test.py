@@ -1,10 +1,3 @@
-a = 3;
+print("hello its me");
 
-if (a < 5)
-    print('fuck you');
-
-else
-    print('hello motherfucker');
-    print('')
-
-
+print(a);
