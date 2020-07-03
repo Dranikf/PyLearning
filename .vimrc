@@ -6,7 +6,7 @@ set splitbelow
 set splitright
 set encoding=utf-8
 
-" настройка плагинов для vim-plug
+" настройк плагинов для vim-plug
 call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'ycm-core/YouCompleteMe'
