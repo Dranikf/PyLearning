@@ -2,6 +2,8 @@ guests_names = ['Saitama' , 'Poya' , 'Linus']
 message = 'invite for launch with me '
 
 def showGuestsMessage(mes):
+    print('num of guests invited for lunch is ' + str(len(guests_names)))
+
     for guest in guests_names:
         print(mes + guest)
 
