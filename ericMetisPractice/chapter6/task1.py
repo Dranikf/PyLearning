@@ -14,7 +14,7 @@ for i in list(range(0, len(people))):
             info = str(item);
         elif (key == 'favorite places'):
             print(key + ':');
-            for place in item:
+            for place in info:
                 print('\t\t' + place);
             continue;
         else:
