@@ -1,0 +1,7 @@
+In python you can write any thing, but it will work slowly.
+The most important fiture of the python, according with the
+python-lovers - easy code.
+Its no so simple as they draw... and c++ for example not so
+hard as they draw.
+But probobali for small progect writing by one programmer
+python is no so bad.
