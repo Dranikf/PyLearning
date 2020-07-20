@@ -2,6 +2,7 @@ import pygame;
 from settings import Settings;
 from ship import Ship;
 from star import Star;
+from game_stats import GameStats;
 import game_functions as gf;
 from pygame.sprite import Group;
 
@@ -27,12 +28,21 @@ def run_game():
     stars = Group();
     gf.create_stars(ai_settings, screen, stars);
 
+    # таймер отсчитывающий игровое время
+    clock = pygame.time.Clock();
+    
+    # создание экземпляра для хранение статистики
+    stats = GameStats(ai_settings); 
+
     while True:
+        clock.tick();
+        timerVal = clock.get_time();
         gf.check_events(ai_settings, screen, ship, bullets);
-        ship.update();
-        
-        gf.update_bullets(bullets, aliens);
-        gf.update_aliens(aliens, ai_settings);
-        gf.update_screen(ai_settings, screen, ship, bullets, aliens, stars); 
+        if stats.game_active:
+            ship.update(timerVal);
+            
+            gf.update_bullets(ai_settings, screen, ship, bullets, aliens, timerVal);
+            gf.update_aliens(aliens, stats, screen, ai_settings, timerVal, ship, bullets);
+            gf.update_screen(ai_settings, screen, ship, bullets, aliens, stars); 
 
 run_game();

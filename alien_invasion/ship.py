@@ -27,19 +27,22 @@ class Ship():
         self.moving_up = False;
         self.moving_down = False;
 
-    def update(self):
+    def update(self, timerVal):
+
+        movValue = self.ai_settings.ship_speed_factor; 
+
         # если флаг активен перемещаем корабль
         if self.moving_right and self.rect.right < self.screen_rect.right:
-            self.center += self.ai_settings.ship_speed_factor;
+            self.center += movValue;
 
         if self.moving_left and self.rect.left > 0:
-            self.center -= self.ai_settings.ship_speed_factor;
+            self.center -= movValue;
 
         if self.moving_up and self.rect.top > 0:
-            self.centery -= self.ai_settings.ship_speed_factor; 
+            self.centery -= movValue; 
 
         if self.moving_down and self.rect.bottom < self.screen_rect.bottom:
-            self.centery += self.ai_settings.ship_speed_factor;
+            self.centery += movValue;
 
         #обновляем позицию корабля на основаниее self.center
         self.rect.centerx = self.center;
@@ -47,3 +50,7 @@ class Ship():
 
     def blitme(self):
         self.screen.blit(self.image, self.rect);
+
+    def center_ship(self):
+        """размещает корабль в центре нижней стороны."""
+        self.center = self.screen_rect.centerx;

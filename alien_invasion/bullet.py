@@ -20,7 +20,9 @@ class Bullet(Sprite): # наследуемся от sprite (непонятно �
         self.color = ai_settings.bullet_color;
         self.speed_factor = ai_settings.bullet_speed_factor;
 
-    def update(self):
+        self.ai_settings = ai_settings;
+
+    def update(self, timerVal):
         # обновление положения пули (перемещение вверx)
         self.y -= self.speed_factor;
         self.rect.y = self.y;

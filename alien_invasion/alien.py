@@ -22,7 +22,7 @@ class Alien(Sprite):
         self.y = float(self.rect.y);
 
     
-    def update(self):
+    def update(self, timerVal):
         """перемещает пришельца"""
         self.x += self.ai_settings.alien_speed_factor * self.ai_settings.fleet_direction;
         self.rect.x = self.x;
