@@ -6,7 +6,8 @@ from star import Star;
 from random import randint;
 from time import sleep;
 
-def check_keydown_events(event, ai_settings, screen, ship, bullets):
+def check_keydown_events(event, ai_settings, stats, screen, ship, bullets
+                                , aliens ):
     # обработка нажатия клавиш
     if event.key == pygame.K_RIGHT:
         ship.moving_right = True;
@@ -20,6 +21,8 @@ def check_keydown_events(event, ai_settings, screen, ship, bullets):
         fire_bullet(ai_settings, screen, ship, bullets);
     elif event.key == pygame.K_q:
         sys.exit();
+    elif event.key == pygame.K_p:
+        start_game(ai_settings, screen, ship, aliens, stats, bullets);
             
 def fire_bullet(ai_settings, screen , ship , bullets):
     """выпускает новую пулю, если максимум еще не достигнут """
@@ -42,20 +45,27 @@ def check_keyup_events(event, ai_settings, screen, ship, bullets):
         ship.moving_down = False;
  
 
-def check_events(ai_settings, screen, ship, bullets):
+def check_events(ai_settings, screen, stats, play_button, ship, bullets, aliens):
     # обрабатывает нажатия клавиш и события мыши
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit();
             
         elif event.type == pygame.KEYDOWN:
-            check_keydown_events(event, ai_settings, screen, ship, bullets); 
+            check_keydown_events(event, ai_settings, stats, screen, ship,
+                     bullets, aliens); 
 
         elif event.type == pygame.KEYUP:
             check_keyup_events(event, ai_settings, screen, ship, bullets);
 
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_x, mouse_y = pygame.mouse.get_pos();
+            check_play_button(ai_settings, screen, stats, play_button
+                                , ship, aliens, bullets, mouse_x, mouse_y);
 
-def update_screen(ai_settigs, screen, ship, bullets, aliens, stars):
+
+def update_screen(ai_settigs, stats, screen, ship, bullets, aliens, stars,
+        play_button):
     # обновляет изображение на экране и отображает новый экран
     screen.fill(ai_settigs.bg_color);
    
@@ -66,6 +76,10 @@ def update_screen(ai_settigs, screen, ship, bullets, aliens, stars):
 
     ship.blitme();
     aliens.draw(screen);
+
+    # Кнопка Play отображается только в том случае, если игра неактивна.
+    if not stats.game_active:
+        play_button.draw_button();
 
     pygame.display.flip();
 
@@ -198,3 +212,23 @@ def check_aliens_bottom(ai_settings, stats, screen, ship, aliens, bullets):
             # происходит тоже, что и при столкновении с кораблем
             ship_hit(ai_settings, stats, screen, ship, aliens, bullets);
             break;
+
+
+def check_play_button(ai_settings, screen, stats, play_button, ship, aliens
+                            , bullets, mouse_x, mouse_y):
+    """запускает новую игру, при нажании кнопки play"""
+    if play_button.rect.collidepoint(mouse_x, mouse_y) and not stats.game_active:
+        start_game(ai_settings, screen, ship, aliens, stats, bullets);
+        
+   
+def start_game(ai_settings, screen, ship, aliens, stats, bullets):
+    # сброс игровой статистики
+    stats.game_active = True;
+
+    # очистка пришельцев и пуль
+    aliens.empty();
+    bullets.empty();
+
+    # создание нового флота
+    create_fleet(ai_settings, screen, ship, aliens);
+    ship.center_ship();
