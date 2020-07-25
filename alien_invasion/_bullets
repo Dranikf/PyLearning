@@ -86,8 +86,7 @@ def update_screen(ai_settigs, stats, sb, screen, ship, bullets, aliens, stars,
     pygame.display.flip();
 
 
-def update_bullets(ai_settings, stats, sb, screen, ship, bullets, 
-                        aliens, timerVal):
+def update_bullets(ai_settings, screen, ship, bullets, aliens, timerVal):
     """обновление позиций пуль и уничтожает старые пули."""
     # обновление позиций пуль
     bullets.update(timerVal);
@@ -102,13 +101,6 @@ def update_bullets(ai_settings, stats, sb, screen, ship, bullets,
     # при обнаружении попадания удалить пулю и пришельца.
     #collisions = pygame.sprite.groupcollide(bullets, aliens, True, True);
     collisions = pygame.sprite.groupcollide(bullets, aliens, not ai_settings.super_bullet, True);
-
-    if collisions:
-        for aliens in collisions.values():
-            stats.score += ai_settings.alien_points*len(aliens);
-        sb.prep_score();
-        check_high_score(stats, sb);
-
 
     if len(aliens) == 0:
         # уничтожение старых пуль и создание новых
@@ -237,8 +229,6 @@ def start_game(ai_settings, screen, ship, aliens, stats, bullets):
     ai_settings.initialize_dynamic_settings();
     # сброс игровой статистики
     stats.game_active = True;
-    stats.reset_stat();
-    
 
     # очистка пришельцев и пуль
     aliens.empty();
@@ -247,10 +237,3 @@ def start_game(ai_settings, screen, ship, aliens, stats, bullets):
     # создание нового флота
     create_fleet(ai_settings, screen, ship, aliens);
     ship.center_ship();
-
-
-def check_high_score(stats, sb):
-    """проверяет появился ли новый рекорд"""
-    if stats.high_score < stats.score:
-        stats.high_score = stats.score;
-        sb.prep_high_score();

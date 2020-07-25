@@ -6,6 +6,7 @@ from game_stats import GameStats;
 import game_functions as gf;
 from pygame.sprite import Group;
 from button import Button;
+from scoreboard import Scoredoard;
 
 
 def run_game():
@@ -37,6 +38,7 @@ def run_game():
 
     #создание конопки Play
     play_button = Button(ai_settings, screen, "Play");
+    sb = Scoredoard(ai_settings, screen, stats);
 
     while True:
         clock.tick();
@@ -46,11 +48,11 @@ def run_game():
         if stats.game_active:
             ship.update(timerVal);
             
-            gf.update_bullets(ai_settings, screen, ship, bullets, aliens
-                                                                , timerVal);
+            gf.update_bullets(ai_settings, stats, sb, screen, ship
+                                    , bullets, aliens, timerVal);
             gf.update_aliens(aliens, stats, screen, ai_settings, timerVal
                                                         , ship, bullets);
-        gf.update_screen(ai_settings, stats, screen, ship, bullets
+        gf.update_screen(ai_settings, stats, sb, screen, ship, bullets
                                                 , aliens, stars, play_button); 
 
 run_game();
