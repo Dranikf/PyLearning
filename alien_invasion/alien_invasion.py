@@ -44,14 +44,14 @@ def run_game():
         clock.tick();
         timerVal = clock.get_time();
         gf.check_events(ai_settings, screen, stats, play_button, ship, bullets,
-                                                                aliens);
+                                                                aliens, sb);
         if stats.game_active:
             ship.update(timerVal);
             
             gf.update_bullets(ai_settings, stats, sb, screen, ship
                                     , bullets, aliens, timerVal);
             gf.update_aliens(aliens, stats, screen, ai_settings, timerVal
-                                                        , ship, bullets);
+                                                        , ship, bullets, sb);
         gf.update_screen(ai_settings, stats, sb, screen, ship, bullets
                                                 , aliens, stars, play_button); 
 

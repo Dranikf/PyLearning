@@ -5,7 +5,12 @@ class GameStats():
         """инициализирует статитику."""
         self.ai_settings = ai_settings;
         self.game_active = False;
-        self.high_score = 0;
+        try:
+            f_obj = open('hight_score', 'rb');
+            self.high_score = int.from_bytes(f_obj.read(4), 'little');
+            f_obj.close();
+        except FileNotFoundError:
+            self.high_score = 0;
         self.reset_stat();
 
 
